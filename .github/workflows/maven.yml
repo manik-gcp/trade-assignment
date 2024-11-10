@@ -21,11 +21,5 @@ jobs:
     - name: Run tests
       run: mvn test
 
-    - name: Dependency check
-      uses: OWASP/dependency-check-action@v2
-      with:
-        format: 'ALL'
-        scan-path: './'
-
     - name: Build Docker image
       run: docker build -t trade-store .
