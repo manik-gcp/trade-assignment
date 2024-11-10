@@ -1,0 +1,31 @@
+# .github/workflows/build.yml
+name: Java CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+
+    - name: Build with Maven
+      run: mvn clean install
+
+    - name: Run tests
+      run: mvn test
+
+    - name: Dependency check
+      uses: OWASP/dependency-check-action@v2
+      with:
+        format: 'ALL'
+        scan-path: './'
+
+    - name: Build Docker image
+      run: docker build -t trade-store .
